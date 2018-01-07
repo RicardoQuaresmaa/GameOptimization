@@ -1,0 +1,21 @@
+﻿#pragma kernel MAIN
+
+RWStructuredBuffer<float4> gPosition;
+
+uniform int gCount;
+
+uniform float gSpacing;
+uniform int gWidth;
+
+[numthreads(64, 1, 1)]
+void MAIN(uint3 id : SV_DispatchThreadID)
+{
+    uint tID = id.x;
+
+    if ((int)tID >= gCount) return;
+
+    uint width = gWidth;
+    float spacing = gSpacing;
+
+    gPosition[tID] = float4((tID % width) * spacing, (tID / width) * spacing, 0, 0);
+}
